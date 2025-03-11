@@ -3,77 +3,85 @@ package br.edu.ifgoias.academico.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.OneToMany;
-
 @Entity
 public class Curso implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idcurso;
-	
-	@Column (name = "nomecurso", nullable= false )
-	private String nomecurso;
-	
-	@OneToMany (mappedBy = "curso")
-	@JsonIgnore
-	private List<Aluno> alunos = new ArrayList<>();
+    private static final long serialVersionUID = 1L;
 
-	public Curso() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idcurso;
 
-	}
-	
-	public Curso(Integer idcurso, String nome) {
-		this.idcurso = idcurso;
-		this.nomecurso = nome;
-	}
+    @Column(name = "nomecurso", nullable = false)
+    private String nomecurso;
 
-	public Integer getIdcurso() {
-		return idcurso;
-	}
+    @JsonIgnore
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Aluno> alunos = new ArrayList<>();
 
-	public void setIdcurso(Integer idcurso) {
-		this.idcurso = idcurso;
-	}
+    public Curso() {
+    }
 
-	public String getNomecurso() {
-		return nomecurso;
-	}
+    public Curso(Integer idcurso, String nomecurso) {
+        this.idcurso = idcurso;
+        this.nomecurso = nomecurso;
+    }
 
-	public void setNomecurso(String nome) {
-		this.nomecurso = nome;
-	}
+    public Integer getIdcurso() {
+        return idcurso;
+    }
 
-	public List<Aluno> getAlunos() {
-		return alunos;
-	}
+    public void setIdcurso(Integer idcurso) {
+        this.idcurso = idcurso;
+    }
 
-	public void addAluno (Aluno a) {
-			this.alunos.add(a);
-			a.setCurso(this);
-	}
-	
-	public void removeAluno (Aluno a) {
-		
-		if (this.alunos.contains(a)) {
-			this.removeAluno(a);
-			a.setCurso(null);
-		}
-	}
+    public String getNomecurso() {
+        return nomecurso;
+    }
 
-	@Override
-	public String toString() {
-		return "Curso [idcurso=" + idcurso + ", nomecurso=" + nomecurso + "]";
-	}
-		
+    public void setNomecurso(String nomecurso) {
+        this.nomecurso = nomecurso;
+    }
+
+    public List<Aluno> getAlunos() {
+        return alunos;
+    }
+
+    public void addAluno(Aluno aluno) {
+        if (aluno != null && !alunos.contains(aluno)) {
+            alunos.add(aluno);
+            aluno.setCurso(this);
+        }
+    }
+
+    public void removeAluno(Aluno aluno) {
+        if (aluno != null && alunos.contains(aluno)) {
+            alunos.remove(aluno);
+            aluno.setCurso(null);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Curso curso = (Curso) o;
+        return Objects.equals(idcurso, curso.idcurso) && Objects.equals(nomecurso, curso.nomecurso);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idcurso, nomecurso);
+    }
+
+    @Override
+    public String toString() {
+        return "Curso {idcurso=" + idcurso + ", nomecurso='" + nomecurso + "'}";
+    }
 }
