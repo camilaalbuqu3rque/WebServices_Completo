@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class AcademicoApplicationTests {
 
     @Test
-    void contextLoads() {
+    void contextLoads() {    	
+    	 // Teste de contexto do Spring Boot.
+        // Este método verifica se o contexto da aplicação carrega corretamente.
     }
 }
