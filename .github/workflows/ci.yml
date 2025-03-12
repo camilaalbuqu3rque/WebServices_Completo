@@ -1,85 +1,80 @@
-name: CI Pipeline
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    <groupId>com.example</groupId>
+    <artifactId>webservices-completo</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
-jobs:
-  build:
-    name: Testes e Análise de Código
-    runs-on: ubuntu-latest
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <sonar.projectKey>camilaalbuqu3rque_webservices_completo</sonar.projectKey>
+        <sonar.organization>camilaalbuqu3rque</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <jacoco.report.path>${project.build.directory}/site/jacoco/jacoco.xml</jacoco.report.path>
+    </properties>
 
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: sistema_academico
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    <build>
+        <plugins>
+            <!-- Plugin para execução de testes e geração de relatórios -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
-    steps:
-      - name: Checkout do código
-        uses: actions/checkout@v3
+            <!-- Plugin para integração com SonarCloud -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.9.1.2184</version>
+            </plugin>
+        </plugins>
+    </build>
 
-      - name: Configurar JDK 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
+    <profiles>
+        <profile>
+            <id>coverage</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <sonar.coverage.jacoco.xmlReportPaths>${jacoco.report.path}</sonar.coverage.jacoco.xmlReportPaths>
+            </properties>
+        </profile>
+    </profiles>
 
-     - name: Configurar Maven Cache
-      uses: actions/cache@v3
-      with:
-        path: ~/.m2/repository
-        key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          maven-${{ runner.os }}-
-          maven-
+    <!-- Dependências do projeto -->
+    <dependencies>
+        <!-- Dependências do Spring Boot, JUnit, etc. -->
+    </dependencies>
+   
+    # Comando manual de execução do SonarCloud (Comentado)
+    # Esse trecho deve ser executado manualmente caso necessário:
 
-      - name: Configurar autenticação no GitHub Packages
-        run: |
-          mkdir -p ~/.m2
-          echo "<settings>
-          <servers>
-            <server>
-              <id>github</id>
-              <username>${{ secrets.GH_USERNAME }}</username>
-              <password>${{ secrets.GH_PACKAGES_TOKEN }}</password>
-            </server>
-          </servers>
-          </settings>" > ~/.m2/settings.xml
+- name: Rodar Análise do SonarCloud com Cobertura
+    run: |
+      mvn sonar:sonar \
+        -Dsonar.projectKey=camilaalbuqu3rque_webservices_completo \
+        -Dsonar.organization=camilaalbuqu3rque \
+        -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=$SONAR_TOKEN \
+        -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml   
 
-      - name: Configurar variáveis de ambiente do banco de dados
-        run: |
-          echo "SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/sistema_academico" >> $GITHUB_ENV
-          echo "SPRING_DATASOURCE_USERNAME=postgres" >> $GITHUB_ENV
-          echo "SPRING_DATASOURCE_PASSWORD=postgres" >> $GITHUB_ENV
-
-      - name: Limpar Cache do Maven
-        run: mvn clean
-
-      - name: Rodar os Testes com Cobertura
-        run: mvn verify
-
-      # - name: Rodar Análise do SonarCloud Manualmente
-      #   run: mvn sonar:sonar
-
-      - name: Rodar Análise do SonarCloud com Cobertura
-        run: |
-          mvn sonar:sonar \
-            -Dsonar.projectKey=camilaalbuqu3rque_webservices_completo \
-            -Dsonar.organization=camilaalbuqu3rque \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=$SONAR_TOKEN \
-            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+</project>
