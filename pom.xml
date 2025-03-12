@@ -20,8 +20,8 @@
         <java.version>17</java.version>
 	   <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <sonar.projectKey>camilalabuqu3rque_WebServices_Completo</sonar.projectKey>
-        <sonar.organization>camilalabuqu3rque</sonar.organization>
+        <sonar.projectKey>camilaalbuqu3rque_WebServices_Completo</sonar.projectKey>
+        <sonar.organization>camilaalbuqu3rque</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	
@@ -139,6 +139,27 @@
             <artifactId>sonar-maven-plugin</artifactId>
             <version>3.9.1.2184</version>
             </plugin>
+ <!-- Plugin do JaCoCo para cobertura de testes -->
+        <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.10</version>
+            <executions>
+                <execution>
+                    <id>prepare-agent</id>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <id>report</id>
+                    <phase>verify</phase>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
         </plugins>
     </build>
 

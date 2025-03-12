@@ -1,74 +1,46 @@
 package br.edu.ifgoias.academico.resources;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
 import br.edu.ifgoias.academico.entities.Curso;
 import br.edu.ifgoias.academico.services.CursoService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:4200")
-@RequestMapping(value = "/cursos")
+@RequestMapping("/cursos")
 public class CursoResource {
-	
-	@Autowired
-	private CursoService servico;
-	
-	@GetMapping
-	public ResponseEntity< List<Curso> >  findAll(){
-		
-		List<Curso> cursos = servico.findAll();
-		
-		return ResponseEntity.ok().body(cursos);
-		
-	}
-	
-	@GetMapping (value = "/{id}")
-	public ResponseEntity<Curso> findById(@PathVariable Integer id){
-		
-		Curso curso = servico.findById(id);
-		
-		return ResponseEntity.ok().body(curso);
-	}
-	
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Curso> insert(@RequestBody Curso c){
-		
-		 c = servico.insert(c);
-		
-		return ResponseEntity.ok().body(c);
-		
-	} 
-	
-	@DeleteMapping (value = "/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable Integer id){
-		
-		servico.delete(id);
-	
-	}
-	
-	@PutMapping(value = "/{id}")
-	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Curso> update(@PathVariable Integer id, @RequestBody Curso c  ){
-		
-		c = servico.update(id, c);
-		
-		return ResponseEntity.ok().body(c);
-	}
 
+    private final CursoService cursoService;
+
+    public CursoResource(CursoService cursoService) {
+        this.cursoService = cursoService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Curso>> getAllCursos() {
+        return ResponseEntity.ok(cursoService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Curso> getCursoById(@PathVariable Long id) {
+        return ResponseEntity.ok(cursoService.findById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<Curso> createCurso(@RequestBody Curso curso) {
+        Curso savedCurso = cursoService.insert(curso);
+        return ResponseEntity.status(201).body(savedCurso);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Curso> updateCurso(@PathVariable Long id, @RequestBody Curso curso) {
+        return ResponseEntity.ok(cursoService.update(id, curso));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCurso(@PathVariable Long id) {
+        cursoService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

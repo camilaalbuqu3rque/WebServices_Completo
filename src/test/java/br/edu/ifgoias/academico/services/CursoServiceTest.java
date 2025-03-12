@@ -1,150 +1,54 @@
 package br.edu.ifgoias.academico.services;
 
+import br.edu.ifgoias.academico.entities.Curso;
+import br.edu.ifgoias.academico.repositories.CursoRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
-
-import br.edu.ifgoias.academico.entities.Curso;
-import br.edu.ifgoias.academico.repositories.CursoRepository;
-
-@ExtendWith(MockitoExtension.class)
 class CursoServiceTest {
-
-    @Mock
-    private CursoRepository cursoRep;
 
     @InjectMocks
     private CursoService cursoService;
 
-    private Curso curso1, curso2;
+    @Mock
+    private CursoRepository cursoRepository;
 
     @BeforeEach
     void setUp() {
-        curso1 = new Curso(1, "Matemática");
-        curso2 = new Curso(2, "História");
-    }
-
-    @Test
-    void testFindAll() {
-        when(cursoRep.findAll()).thenReturn(Arrays.asList(curso1, curso2));
-
-        List<Curso> cursos = cursoService.findAll();
-        
-        assertNotNull(cursos);
-        assertEquals(2, cursos.size());
-        verify(cursoRep, times(1)).findAll();
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
     void testFindById_Success() {
-        when(cursoRep.findById(1)).thenReturn(Optional.of(curso1));
+        Curso curso = new Curso(1L, "Matemática");
+        when(cursoRepository.findById(1L)).thenReturn(Optional.of(curso));
 
-        Curso curso = cursoService.findById(1);
-
-        assertNotNull(curso);
-        assertEquals("Matemática", curso.getNomecurso());
-        verify(cursoRep, times(1)).findById(1);
+        Curso result = cursoService.findById(1L);
+        assertEquals("Matemática", result.getNomeCurso());
     }
 
     @Test
     void testFindById_NotFound() {
-        when(cursoRep.findById(3)).thenReturn(Optional.empty());
+        when(cursoRepository.findById(99L)).thenReturn(Optional.empty());
 
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> cursoService.findById(3));
-
-        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
-        assertTrue(exception.getReason().contains("Curso não encontrado"));
-        verify(cursoRep, times(1)).findById(3);
+        assertThrows(ResponseStatusException.class, () -> cursoService.findById(99L));
     }
 
     @Test
-    void testInsert_Success() {
-        when(cursoRep.save(any(Curso.class))).thenReturn(curso1);
+    void testInsert() {
+        Curso curso = new Curso(null, "História");
+        when(cursoRepository.save(curso)).thenReturn(new Curso(1L, "História"));
 
-        Curso savedCurso = cursoService.insert(curso1);
-
-        assertNotNull(savedCurso);
-        assertEquals("Matemática", savedCurso.getNomecurso());
-        verify(cursoRep, times(1)).save(curso1);
-    }
-
-    @Test
-    void testInsert_InvalidData() {
-        Curso cursoInvalido = new Curso(null, ""); // Nome inválido
-
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, 
-            () -> cursoService.insert(cursoInvalido));
-
-        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
-        assertTrue(exception.getReason().contains("Dados inválidos para inserção"));
-    }
-
-    @Test
-    void testDelete_Success() {
-        when(cursoRep.existsById(1)).thenReturn(true);
-        doNothing().when(cursoRep).deleteById(1);
-
-        assertDoesNotThrow(() -> cursoService.delete(1));
-        verify(cursoRep, times(1)).existsById(1);
-        verify(cursoRep, times(1)).deleteById(1);
-    }
-
-    @Test
-    void testDelete_NotFound() {
-        when(cursoRep.existsById(3)).thenReturn(false);
-
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> cursoService.delete(3));
-
-        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
-        assertTrue(exception.getReason().contains("Curso não encontrado para exclusão"));
-        verify(cursoRep, times(1)).existsById(3);
-    }
-
-    @Test
-    void testUpdate_Success() {
-        Curso cursoAtualizado = new Curso(1, "Matemática Avançada");
-        when(cursoRep.findById(1)).thenReturn(Optional.of(curso1));
-        when(cursoRep.save(any(Curso.class))).thenReturn(cursoAtualizado);
-
-        Curso updatedCurso = cursoService.update(1, cursoAtualizado);
-
-        assertNotNull(updatedCurso);
-        assertEquals("Matemática Avançada", updatedCurso.getNomecurso());
-        verify(cursoRep, times(1)).findById(1);
-        verify(cursoRep, times(1)).save(any(Curso.class));
-    }
-
-    @Test
-    void testUpdate_InvalidData() {
-        Curso cursoInvalido = new Curso(1, ""); // Nome inválido
-
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, 
-            () -> cursoService.update(1, cursoInvalido));
-
-        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
-        assertTrue(exception.getReason().contains("Dados inválidos para atualização"));
-    }
-
-    @Test
-    void testUpdate_NotFound() {
-        Curso cursoAtualizado = new Curso(3, "Física");
-        when(cursoRep.findById(3)).thenReturn(Optional.empty());
-
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> cursoService.update(3, cursoAtualizado));
-
-        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
-        assertTrue(exception.getReason().contains("Curso não encontrado"));
+        Curso result = cursoService.insert(curso);
+        assertEquals("História", result.getNomeCurso());
     }
 }

@@ -1,87 +1,39 @@
 package br.edu.ifgoias.academico.entities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import jakarta.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 
 @Entity
+@Table(name = "curso")
 public class Curso implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idcurso;
+    private Long id;
 
-    @Column(name = "nomecurso", nullable = false)
-    private String nomecurso;
+    @Column(nullable = false, length = 100)
+    private String nomeCurso;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Aluno> alunos = new ArrayList<>();
+    public Curso() {}
 
-    public Curso() {
+    public Curso(Long id, String nomeCurso) {
+        this.id = id;
+        this.nomeCurso = nomeCurso;
     }
 
-    public Curso(Integer idcurso, String nomecurso) {
-        this.idcurso = idcurso;
-        this.nomecurso = nomecurso;
+    public Long getId() {
+        return id;
     }
 
-    public Integer getIdcurso() {
-        return idcurso;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setIdcurso(Integer idcurso) {
-        this.idcurso = idcurso;
+    public String getNomeCurso() {
+        return nomeCurso;
     }
 
-    public String getNomecurso() {
-        return nomecurso;
-    }
-
-    public void setNomecurso(String nomecurso) {
-        this.nomecurso = nomecurso;
-    }
-
-    public List<Aluno> getAlunos() {
-        return alunos;
-    }
-
-    public void addAluno(Aluno aluno) {
-        if (aluno != null && !alunos.contains(aluno)) {
-            alunos.add(aluno);
-            aluno.setCurso(this);
-        }
-    }
-
-    public void removeAluno(Aluno aluno) {
-        if (aluno != null && alunos.contains(aluno)) {
-            alunos.remove(aluno);
-            aluno.setCurso(null);
-        }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Curso curso = (Curso) o;
-        return Objects.equals(idcurso, curso.idcurso) && Objects.equals(nomecurso, curso.nomecurso);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idcurso, nomecurso);
-    }
-
-    @Override
-    public String toString() {
-        return "Curso {idcurso=" + idcurso + ", nomecurso='" + nomecurso + "'}";
+    public void setNomeCurso(String nomeCurso) {
+        this.nomeCurso = nomeCurso;
     }
 }
