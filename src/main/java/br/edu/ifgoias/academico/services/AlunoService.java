@@ -32,12 +32,12 @@ public class AlunoService {
 		alunoRep.deleteById(id);
 	}
 
-	public Aluno update(Integer id, Aluno obj_alterado) {
+	public Aluno update(Integer id, Aluno objAlterado) {
 		return alunoRep.findById(id).map(alunoDB -> {
-			alunoDB.setNome(obj_alterado.getNome());
-			alunoDB.setSexo(obj_alterado.getSexo());
-			alunoDB.setDt_nasc(obj_alterado.getDt_nasc());
-			return alunoRep.save(alunoDB);
+			alunoDB.setNome(objAlterado.getNome());
+			alunoDB.setSexo(objAlterado.getSexo());
+			alunoDB.setDt_nasc(objAlterado.getDt_nasc());
+			return alunoRep.save(alunoDB); 
 		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 }
