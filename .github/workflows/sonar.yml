@@ -26,7 +26,8 @@ jobs:
     - name: Compilar o código
       run: mvn clean verify
 
-    - name: Rodar análise do SonarCloud
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: mvn sonar:sonar -Dsonar.projectKey=camilalbuqu3que_WebServices_Completo
+    # - name: Rodar Análise do SonarCloud
+#   env:
+#     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#   run: mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN
+

@@ -70,7 +70,8 @@ jobs:
     - name: Rodar os Testes com Cobertura
       run: mvn verify
 
-    - name: Rodar Análise do SonarCloud
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN
+    # - name: Rodar Análise do SonarCloud
+#   env:
+#     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#   run: mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN
+

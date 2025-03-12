@@ -22,7 +22,5 @@ jobs:
       - name: Build with Maven
         run: mvn clean verify
 
-      - name: Run SonarQube analysis
-
-run: mvn sonar:sonar -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} -Dsonar.login=
-${{ secrets.SONAR_TOKEN }}
+# - name: Run SonarQube analysis
+# run: mvn sonar:sonar -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} -Dsonar.login=${{ secrets.SONAR_TOKEN }}
