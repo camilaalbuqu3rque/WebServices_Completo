@@ -70,10 +70,10 @@ jobs:
       - name: Rodar os Testes com Cobertura
         run: mvn verify
 
-     # - name: Rodar Análise do SonarCloud
-      #  env:
-        #  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # - name: Rodar Análise do SonarCloud Manualmente
+      #   run: mvn sonar:sonar
 
+      - name: Rodar Análise do SonarCloud com Cobertura
         run: |
           mvn sonar:sonar \
             -Dsonar.projectKey=camilaalbuqu3rque_webservices_completo \
