@@ -28,7 +28,7 @@
 	<repositories>
     <repository>
         <id>github</id>
-        <url>https://maven.pkg.github.com/camilaalbuqu3rque/WebServices_Completo</url>
+        <url>https://maven.pkg.github.com/camilaalbuqu3rque/aulajpa</url>
         <snapshots>
             <enabled>true</enabled>
         </snapshots>
