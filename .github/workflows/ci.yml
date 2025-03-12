@@ -13,6 +13,21 @@ jobs:
     name: Testes e Análise de Código
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: sistema_academico
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
     - name: Checkout do código
       uses: actions/checkout@v3
@@ -43,8 +58,17 @@ jobs:
         </servers>
         </settings>" > ~/.m2/settings.xml
 
+    - name: Configurar variáveis de ambiente do banco de dados
+      run: |
+        echo "SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/sistema_academico" >> $GITHUB_ENV
+        echo "SPRING_DATASOURCE_USERNAME=postgres" >> $GITHUB_ENV
+        echo "SPRING_DATASOURCE_PASSWORD=postgres" >> $GITHUB_ENV
+
+    - name: Limpar Cache do Maven
+      run: mvn clean
+
     - name: Rodar os Testes com Cobertura
-      run: mvn clean verify
+      run: mvn verify
 
     - name: Rodar Análise do SonarCloud
       env:
