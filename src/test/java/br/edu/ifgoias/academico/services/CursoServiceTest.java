@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -24,7 +26,7 @@ class CursoServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this); 
     }
 
     @Test
@@ -51,4 +53,6 @@ class CursoServiceTest {
         Curso result = cursoService.insert(curso);
         assertEquals("História", result.getNomeCurso());
     }
+    
+ 
 }
