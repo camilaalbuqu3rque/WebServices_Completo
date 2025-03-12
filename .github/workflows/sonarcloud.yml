@@ -1,0 +1,28 @@
+name: SonarCloud Analysis
+on:
+  push:
+    branches:
+      - main  # Substitua pelo nome da branch que você está usando
+  pull_request:
+    branches:
+      - main  # Substitua pelo nome da branch que você está usando
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Build with Maven
+        run: mvn clean verify
+
+      - name: Run SonarQube analysis
+
+run: mvn sonar:sonar -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} -Dsonar.login=
+${{ secrets.SONAR_TOKEN }}

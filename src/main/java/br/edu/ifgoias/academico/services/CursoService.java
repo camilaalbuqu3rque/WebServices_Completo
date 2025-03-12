@@ -18,7 +18,7 @@ public class CursoService {
     private CursoRepository cursoRep;
 
     public List<Curso> findAll() {
-        return cursoRep.findAll();
+        return cursoRep.findAll(); 
     }
 
     public Curso findById(Integer id) {
@@ -28,7 +28,7 @@ public class CursoService {
 
     public Curso insert(Curso obj) {
         if (obj == null || obj.getNomecurso() == null || obj.getNomecurso().trim().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nome do curso não pode ser nulo ou vazio");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados inválidos para inserção");
         }
         return cursoRep.save(obj);
     }
@@ -42,17 +42,15 @@ public class CursoService {
 
     public Curso update(Integer id, Curso objAlterado) {
         if (objAlterado == null || objAlterado.getNomecurso() == null || objAlterado.getNomecurso().trim().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nome do curso não pode ser nulo ou vazio");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados inválidos para atualização");
         }
 
-        Optional<Curso> cursoOptional = cursoRep.findById(id);
-        if (cursoOptional.isPresent()) {
-            Curso cursoDB = cursoOptional.get();
-            cursoDB.setNomecurso(objAlterado.getNomecurso());
-            return cursoRep.save(cursoDB);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Curso não encontrado");
-        }
+        return cursoRep.findById(id)
+                .map(cursoDB -> {
+                    cursoDB.setNomecurso(objAlterado.getNomecurso());
+                    return cursoRep.save(cursoDB);
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Curso não encontrado"));
     }
 
     public Curso buscarCursoPorId(Integer id) {

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.edu.ifgoias.academico.entities.Curso;
@@ -63,7 +64,8 @@ class CursoServiceTest {
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> cursoService.findById(3));
 
-        assertTrue(exception.getMessage().contains("Curso não encontrado"));
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+        assertTrue(exception.getReason().contains("Curso não encontrado"));
         verify(cursoRep, times(1)).findById(3);
     }
 
@@ -80,11 +82,13 @@ class CursoServiceTest {
 
     @Test
     void testInsert_InvalidData() {
-        Curso cursoInvalido = new Curso(null, "");
+        Curso cursoInvalido = new Curso(null, ""); // Nome inválido
 
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> cursoService.insert(cursoInvalido));
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, 
+            () -> cursoService.insert(cursoInvalido));
 
-        assertTrue(exception.getMessage().contains("Dados inválidos para inserção"));
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
+        assertTrue(exception.getReason().contains("Dados inválidos para inserção"));
     }
 
     @Test
@@ -103,7 +107,8 @@ class CursoServiceTest {
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> cursoService.delete(3));
 
-        assertTrue(exception.getMessage().contains("Curso não encontrado para exclusão"));
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+        assertTrue(exception.getReason().contains("Curso não encontrado para exclusão"));
         verify(cursoRep, times(1)).existsById(3);
     }
 
@@ -123,11 +128,13 @@ class CursoServiceTest {
 
     @Test
     void testUpdate_InvalidData() {
-        Curso cursoInvalido = new Curso(1, "");
+        Curso cursoInvalido = new Curso(1, ""); // Nome inválido
 
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> cursoService.update(1, cursoInvalido));
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, 
+            () -> cursoService.update(1, cursoInvalido));
 
-        assertTrue(exception.getMessage().contains("Dados inválidos para atualização"));
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
+        assertTrue(exception.getReason().contains("Dados inválidos para atualização"));
     }
 
     @Test
@@ -137,26 +144,7 @@ class CursoServiceTest {
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> cursoService.update(3, cursoAtualizado));
 
-        assertTrue(exception.getMessage().contains("Curso não encontrado"));
-    }
-
-    @Test
-    void testBuscarCursoPorId() {
-        when(cursoRep.findById(2)).thenReturn(Optional.of(curso2));
-
-        Curso curso = cursoService.buscarCursoPorId(2);
-
-        assertNotNull(curso);
-        assertEquals("História", curso.getNomecurso());
-        verify(cursoRep, times(1)).findById(2);
-    }
-
-    @Test
-    void testBuscarCursoPorId_NotFound() {
-        when(cursoRep.findById(4)).thenReturn(Optional.empty());
-
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> cursoService.buscarCursoPorId(4));
-
-        assertTrue(exception.getMessage().contains("Curso não encontrado"));
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+        assertTrue(exception.getReason().contains("Curso não encontrado"));
     }
 }

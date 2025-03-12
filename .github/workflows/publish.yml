@@ -1,0 +1,27 @@
+name: Publicar no GitHub Packages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do repositório
+      uses: actions/checkout@v3
+
+    - name: Configurar Java e Maven
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        server-id: github
+        settings-path: ${{ github.workspace }}
+
+    - name: Criar e publicar pacote no GitHub Packages
+      run: mvn deploy
+      env:
+       GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}

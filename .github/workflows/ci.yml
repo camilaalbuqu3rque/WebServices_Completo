@@ -30,6 +30,19 @@ jobs:
         key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
         restore-keys: maven-${{ runner.os }}-
 
+    - name: Configurar autenticação no GitHub Packages
+      run: |
+        mkdir -p ~/.m2
+        echo "<settings>
+        <servers>
+          <server>
+            <id>github</id>
+            <username>${{ secrets.GH_USERNAME }}</username>
+            <password>${{ secrets.GH_PACKAGES_TOKEN }}</password>
+          </server>
+        </servers>
+        </settings>" > ~/.m2/settings.xml
+
     - name: Rodar os Testes com Cobertura
       run: mvn clean verify
 
