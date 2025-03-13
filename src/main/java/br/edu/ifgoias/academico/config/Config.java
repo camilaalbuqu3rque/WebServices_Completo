@@ -29,7 +29,7 @@ public class Config implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-				logger.info("Qtde Cursos: " + cursoRep.count());
+		 	logger.info("Quantidade de Cursos: {}", cursoRep.count());
 
 				Aluno a1 = new Aluno(null, "Caroline", "Feminino", Date.valueOf("2000-04-24"));
 
