@@ -2,6 +2,7 @@ package br.edu.ifgoias.academico.config;
 
 import java.sql.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,8 +13,10 @@ import br.edu.ifgoias.academico.repositories.CursoRepository;
 @Configuration
 public class Config implements CommandLineRunner {
 
+	@Autowired
 	private CursoRepository cursoRep;
 	
+	@Autowired
 	private AlunoRepository alunoRep;
 	
 	@Override
