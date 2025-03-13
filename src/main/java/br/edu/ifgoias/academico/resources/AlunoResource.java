@@ -2,7 +2,6 @@ package br.edu.ifgoias.academico.resources;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,11 +23,10 @@ import br.edu.ifgoias.academico.services.AlunoService;
 @RequestMapping(value = "/alunos")
 public class AlunoResource {
 
-	@Autowired
 	private AlunoService servico;
 
 	@GetMapping
-	public ResponseEntity<List<Aluno>> findAll() {
+	public ResponseEntity<List<Aluno>> findAll() { 
 
 		List<Aluno> alunos = servico.findAll();
 
