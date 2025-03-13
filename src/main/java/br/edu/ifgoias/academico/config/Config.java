@@ -26,8 +26,6 @@ public class Config implements CommandLineRunner {
 		this.alunoRep = alunoRep;
 	}
 
-
-
 	@Override
 	public void run(String... args) throws Exception {
 
@@ -37,15 +35,15 @@ public class Config implements CommandLineRunner {
 
 				Aluno a2 = new Aluno(null, "Isabelle", "Feminino", Date.valueOf("2000-12-28"));
 
-				alunoRep.save(a1);
+				if (logger.isInfoEnabled()) {
+		            logger.info("Salvando aluno: {}", a1.getNome());
+		        }
+		        alunoRep.save(a1);
 
-				alunoRep.save(a2);
-
-				// alunoRep.deleteById(1);
-
-				// alunoRep.deleteById(2);
-
-				System.out.println("Qtde Alunos: " + alunoRep.count());
+		        if (logger.isInfoEnabled()) {
+		            logger.info("Salvando aluno: {}", a2.getNome());
+		        }
+		        alunoRep.save(a2);
 	}
 
 }
