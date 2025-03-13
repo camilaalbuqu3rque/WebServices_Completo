@@ -24,7 +24,7 @@ public class AlunoService {
 
 	public Aluno insert(Aluno obj) {
 		return alunoRep.save(obj);
-	}
+	}  
 
 	public void delete(Integer id) {
 		alunoRep.deleteById(id);
