@@ -13,12 +13,19 @@ import br.edu.ifgoias.academico.repositories.CursoRepository;
 @Configuration
 public class Config implements CommandLineRunner {
 
-	@Autowired
+	
 	private CursoRepository cursoRep;
 	
-	@Autowired
-	private AlunoRepository alunoRep;
+	private AlunoRepository alunoRep;	
 	
+	@Autowired
+	public Config(CursoRepository cursoRep, AlunoRepository alunoRep) {
+		this.cursoRep = cursoRep;
+		this.alunoRep = alunoRep;
+	}
+
+
+
 	@Override
 	public void run(String... args) throws Exception {
 
