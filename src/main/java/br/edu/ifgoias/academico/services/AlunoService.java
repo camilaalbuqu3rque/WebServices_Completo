@@ -34,7 +34,7 @@ public class AlunoService {
 		return alunoRep.findById(id).map(alunoDB -> {
 			alunoDB.setNome(objAlterado.getNome());
 			alunoDB.setSexo(objAlterado.getSexo());
-			alunoDB.setDt_nasc(objAlterado.getDt_nasc());
+			alunoDB.setDtNasc(objAlterado.getDtNasc());
 			return alunoRep.save(alunoDB); 
 		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}

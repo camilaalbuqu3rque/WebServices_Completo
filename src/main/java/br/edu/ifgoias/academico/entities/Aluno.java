@@ -69,12 +69,12 @@ public class Aluno implements Serializable {
 		this.sexo = sexo;
 	}
 
-	public Date getDt_nasc() {
-		return getDtNasc;
+	public Date getDtNasc() {
+		return getDtNasc();
 	}
 
-	public void setDt_nasc(Date dt_nasc) {
-		this.getDtNasc = dt_nasc;
+	public void setDtNasc(Date dtNasc) {
+		this.getDtNasc = dtNasc;
 	}
 
 	public Curso getCurso() {
