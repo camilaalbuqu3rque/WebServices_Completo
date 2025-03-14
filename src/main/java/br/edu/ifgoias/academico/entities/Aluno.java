@@ -15,7 +15,6 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Aluno implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -33,7 +32,7 @@ public class Aluno implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "idcurso")
-    private Curso curso;
+    private transient Curso curso; // Campo marcado como transient
 
     public Aluno() {
     }
