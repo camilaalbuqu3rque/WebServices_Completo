@@ -33,7 +33,7 @@ public class AlunoResource {
 		return ResponseEntity.ok().body(alunos);
 
 	}
-
+ 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Aluno> findById(@PathVariable Integer id) {
 

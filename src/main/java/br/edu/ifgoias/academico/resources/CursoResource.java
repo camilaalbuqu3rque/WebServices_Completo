@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("/cursos")
 public class CursoResource {
 
-    private final CursoService cursoService;
+    private final CursoService cursoService; 
 
     public CursoResource(CursoService cursoService) {
         this.cursoService = cursoService;

@@ -21,7 +21,7 @@ public class Config implements CommandLineRunner {
 	private AlunoRepository alunoRep;	
 	
 	@Autowired
-	public Config(CursoRepository cursoRep, AlunoRepository alunoRep) {
+	public Config(CursoRepository cursoRep, AlunoRepository alunoRep) { 
 		this.cursoRep = cursoRep;
 		this.alunoRep = alunoRep;
 	}

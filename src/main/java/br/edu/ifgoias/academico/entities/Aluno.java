@@ -25,7 +25,7 @@ public class Aluno implements Serializable {
     private String nome;
 
     @Column(name = "sexo", nullable = false)
-    private String sexo;
+    private String sexo; 
 
     @Column(name = "dt_nasc", nullable = false)
     private Date dtNasc; // Renomeado para dtNasc para evitar confusão

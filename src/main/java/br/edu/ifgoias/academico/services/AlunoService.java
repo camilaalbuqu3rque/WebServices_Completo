@@ -20,7 +20,7 @@ public class AlunoService {
 
 	public Aluno findById(Integer id) {
 		return alunoRep.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-	}
+	} 
 
 	public Aluno insert(Aluno obj) {
 		return alunoRep.save(obj);

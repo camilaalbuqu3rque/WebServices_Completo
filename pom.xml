@@ -33,6 +33,18 @@
             <enabled>true</enabled>
         </snapshots>
     </repository>
+    
+    <repository>
+        <id>central</id>
+        <url>https://repo.maven.apache.org/maven2</url>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+    
 </repositories>
 
 	<distributionManagement>
@@ -43,6 +55,19 @@
 	</distributionManagement>
 
     <dependencies>
+    
+    	<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-core</artifactId>
+		    <version>6.2.7.Final</version>
+		</dependency>
+    
+    	<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <scope>runtime</scope>
+		</dependency>
+	
         <!-- Spring Boot e Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -120,6 +145,12 @@
     </dependencies>
 
     <build>
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <filtering>false</filtering>
+        </resource>
+    </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
