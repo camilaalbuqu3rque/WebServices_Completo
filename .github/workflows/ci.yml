@@ -46,8 +46,9 @@ jobs:
 
       # Passo 7: Executar análise do SonarCloud
       - name: Executar análise do SonarCloud
-        run: |
-          mvn sonar:sonar \
+	env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn sonar:sonar \
             -Dsonar.projectKey=camilaalbuqu3rque_WebServices_Completo \
             -Dsonar.organization=camilaalbuqu3rque \
             -Dsonar.host.url=https://sonarcloud.io \
