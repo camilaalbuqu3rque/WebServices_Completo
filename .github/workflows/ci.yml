@@ -1,4 +1,4 @@
-name: CI - Build, Test, and Coverage
+name: CI - Build, Test, and SonarCloud Analysis
 
 on:
   push:
@@ -13,28 +13,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      # Passo 1: Checkout do código
+      - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      # Passo 2: Configurar JDK 17
+      - name: Configurar JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build and Test with Maven
+      # Passo 3: Compilar e executar testes
+      - name: Compilar e executar testes
         run: mvn clean test
 
-      - name: Generate JaCoCo Report
+      # Passo 4: Gerar relatório do JaCoCo
+      - name: Gerar relatório do JaCoCo
         run: mvn jacoco:report
 
-      - name: Upload JaCoCo Report as Artifact
+      # Passo 5: Enviar relatório do JaCoCo como artefato
+      - name: Enviar relatório do JaCoCo como artefato
         uses: actions/upload-artifact@v3
         with:
           name: jacoco-report
           path: target/site/jacoco/
 
-      - name: Run SonarCloud Analysis
+      # Passo 6: Executar análise do SonarCloud
+      - name: Executar análise do SonarCloud
         run: |
           mvn sonar:sonar \
             -Dsonar.projectKey=camilaalbuqu3rque_webservices_completo \
