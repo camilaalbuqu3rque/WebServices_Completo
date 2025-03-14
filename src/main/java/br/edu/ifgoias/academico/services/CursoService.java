@@ -15,7 +15,7 @@ public class CursoService {
 
     public CursoService(CursoRepository cursoRep) {
         this.cursoRep = cursoRep; 
-    }
+    } 
 
     public List<Curso> findAll() {
         return cursoRep.findAll();
@@ -33,7 +33,7 @@ public class CursoService {
     public Curso update(Long id, Curso curso) {
         return cursoRep.findById(id)
                 .map(existingCurso -> {
-                    existingCurso.setNomeCurso(curso.getNomeCurso());
+                    existingCurso.setNomeCurso(curso.getNomeCurso()); 
                     return cursoRep.save(existingCurso);
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Curso não encontrado"));

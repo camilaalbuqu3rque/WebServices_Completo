@@ -31,7 +31,7 @@ class CursoServiceTest {
     }
 
     @Test
-    void testFindById_Success() {
+    void testFindById_Success() { 
         Curso curso = new Curso(1L, "Matemática");
         when(cursoRepository.findById(1L)).thenReturn(Optional.of(curso));
 
@@ -57,7 +57,7 @@ class CursoServiceTest {
         assertEquals("História", result.getNomeCurso());
     }
 
-    @Test
+    @Test 
     void testFindAll() {
         Curso curso1 = new Curso(1L, "Matemática");
         Curso curso2 = new Curso(2L, "História");
@@ -85,8 +85,12 @@ class CursoServiceTest {
     void testUpdate_NotFound() {
         when(cursoRepository.findById(99L)).thenReturn(Optional.empty());
 
+        // Cria o objeto Curso fora da lambda
+        Curso curso = new Curso(99L, "Curso Inexistente");
+
+        // A lambda agora contém apenas uma invocação que pode lançar uma exceção
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
-            cursoService.update(99L, new Curso(99L, "Curso Inexistente"));
+            cursoService.update(99L, curso);
         });
 
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
