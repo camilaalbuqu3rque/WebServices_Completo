@@ -6,11 +6,15 @@ import java.io.Serializable;
 @Entity
 @Table(name = "curso")
 public class Curso implements Serializable {
+	
+@ManyToOne
+@JoinColumn(name = "idcurso")
+private Curso curso;
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
 
     @Column(nullable = false, length = 100)
@@ -20,7 +24,7 @@ public class Curso implements Serializable {
 
     public Curso(Long id, String nomeCurso) {
         this.id = id;
-        this.nomeCurso = (nomeCurso != null && !nomeCurso.isEmpty()) ? nomeCurso : "Curso Padrão";
+        this.nomeCurso = (nomeCurso != null && !nomeCurso.isEmpty()) ? nomeCurso : "Curso Padrão"; 
     }
 
     public Long getId() {

@@ -14,7 +14,7 @@ public class CursoService {
     private final CursoRepository cursoRep;
 
     public CursoService(CursoRepository cursoRep) {
-        this.cursoRep = cursoRep;
+        this.cursoRep = cursoRep; 
     }
 
     public List<Curso> findAll() {

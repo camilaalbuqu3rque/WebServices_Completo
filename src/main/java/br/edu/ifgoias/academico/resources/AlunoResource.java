@@ -31,7 +31,7 @@ public class AlunoResource {
 		List<Aluno> alunos = servico.findAll();
 
 		return ResponseEntity.ok().body(alunos);
-
+ 
 	}
  
 	@GetMapping(value = "/{id}")

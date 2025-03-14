@@ -1,6 +1,7 @@
 package br.edu.ifgoias.academico.entities;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -25,17 +26,16 @@ public class Aluno implements Serializable {
     private String nome;
 
     @Column(name = "sexo", nullable = false)
-    private String sexo; 
+    private String sexo;
 
     @Column(name = "dt_nasc", nullable = false)
-    private Date dtNasc; // Renomeado para dtNasc para evitar confusão
+    private Date dtNasc;
 
     @ManyToOne
     @JoinColumn(name = "idcurso")
     private Curso curso;
 
     public Aluno() {
-
     }
 
     public Aluno(Integer id, String nome, String sexo, Date dtNasc) {
@@ -70,7 +70,7 @@ public class Aluno implements Serializable {
     }
 
     public Date getDtNasc() {
-        return dtNasc; // Retorna o valor do campo dtNasc
+        return dtNasc;
     }
 
     public void setDtNasc(Date dtNasc) {
@@ -81,8 +81,16 @@ public class Aluno implements Serializable {
         return curso;
     }
 
-    public void setCurso(Curso c) {
-        this.curso = c;
+    public void setCurso(Curso curso) {
+        this.curso = curso;
+    }
+
+    public void setId(Integer id) { 
+        this.idaluno = id;
+    }
+
+    public Integer getId() {
+        return this.idaluno;
     }
 
     @Override
@@ -94,17 +102,16 @@ public class Aluno implements Serializable {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         Aluno other = (Aluno) obj;
-        return Objects.equals(dtNasc, other.dtNasc) && Objects.equals(idaluno, other.idaluno)
-                && Objects.equals(nome, other.nome) && Objects.equals(sexo, other.sexo);
+        return Objects.equals(idaluno, other.idaluno);
     }
 
     @Override
     public String toString() {
-        return "Aluno [idaluno=" + idaluno + ", nome=" + nome + ", sexo=" + sexo + ", dt_nasc=" + dtNasc + "]";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return "Aluno [id=" + idaluno + ", nome=" + nome + ", sexo=" + sexo + ", dt_nasc=" + 
+               (dtNasc != null ? sdf.format(dtNasc) : "null") + "]";
     }
 }
