@@ -1,4 +1,4 @@
-name: CI - Build, Test and SonarCloud Analysis
+name: CI - Build, Test, and SonarCloud Analysis
 
 on:
   push:
@@ -32,19 +32,24 @@ jobs:
       - name: Gerar relatório do JaCoCo
         run: mvn jacoco:report
 
-      # Passo 5: Enviar relatório do JaCoCo como artefato
+      # Passo 5: Verificar se o relatório foi gerado
+      - name: Verificar se o relatório do JaCoCo foi gerado
+        run: |
+          ls -R target/site/jacoco/
+
+      # Passo 6: Enviar relatório do JaCoCo como artefato
       - name: Enviar relatório do JaCoCo como artefato
         uses: actions/upload-artifact@v3
         with:
           name: jacoco-report
           path: target/site/jacoco/
 
-      # Passo 6: Executar análise do SonarCloud
+      # Passo 7: Executar análise do SonarCloud
       - name: Executar análise do SonarCloud
         run: |
           mvn sonar:sonar \
-            -Dsonar.projectKey=camilaalbuqu3rque_webservices_completo \
+            -Dsonar.projectKey=camilaalbuqu3rque_WebServices_Completo \
             -Dsonar.organization=camilaalbuqu3rque \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/index.html
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
