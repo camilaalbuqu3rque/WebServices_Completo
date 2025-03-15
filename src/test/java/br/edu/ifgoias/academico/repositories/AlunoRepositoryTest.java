@@ -32,7 +32,7 @@ class AlunoRepositoryTest {  // ❌ Removido "public"
     private Aluno aluno;
 
     @BeforeEach
-    public void setup() {  // Agora este método é público
+    	void setup() {  // Agora este método é público
         alunoRepository.deleteAll(); // Limpa o banco antes do teste
         aluno = new Aluno();
         aluno.setNome("João Silva");
