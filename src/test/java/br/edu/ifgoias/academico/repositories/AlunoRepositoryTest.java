@@ -18,10 +18,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
+// Essa classe tem três testes principais que validam se as operações básicas de banco de dados (CRUD) estão funcionando corretamente.
+
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class AlunoRepositoryTest {  // ❌ Removido "public"
+class AlunoRepositoryTest {  
 
     @Autowired
     private AlunoRepository alunoRepository;
@@ -32,8 +34,8 @@ class AlunoRepositoryTest {  // ❌ Removido "public"
     private Aluno aluno;
 
     @BeforeEach
-    	void setup() {  // Agora este método é público
-        alunoRepository.deleteAll(); // Limpa o banco antes do teste
+    	void setup() { 
+        alunoRepository.deleteAll(); // Limpa o banco antes de cada teste
         aluno = new Aluno();
         aluno.setNome("João Silva");
         aluno.setSexo("M");
@@ -49,9 +51,9 @@ class AlunoRepositoryTest {  // ❌ Removido "public"
 
         Aluno alunoSalvo = alunoRepository.save(novoAluno);
         
-        assertThat(alunoSalvo).isNotNull();
-        assertThat(alunoSalvo.getIdaluno()).isNotNull();
-        assertThat(alunoSalvo.getNome()).isEqualTo("Teste");
+        assertThat(alunoSalvo).isNotNull(); // Verifica se o aluno foi salvo
+        assertThat(alunoSalvo.getIdaluno()).isNotNull(); // Verifica se o ID foi gerado
+        assertThat(alunoSalvo.getNome()).isEqualTo("Teste"); // Verifica se o nome está correto
     }
 
     @Test
@@ -59,8 +61,8 @@ class AlunoRepositoryTest {  // ❌ Removido "public"
         Aluno alunoSalvo = alunoRepository.save(aluno);
         Aluno alunoEncontrado = alunoRepository.findById(alunoSalvo.getIdaluno()).orElse(null);
 
-        assertThat(alunoEncontrado).isNotNull();
-        assertThat(alunoEncontrado.getNome()).isEqualTo(aluno.getNome());
+        assertThat(alunoEncontrado).isNotNull(); // Verifica se o aluno foi encontrado
+        assertThat(alunoEncontrado.getNome()).isEqualTo(aluno.getNome()); // Compara os nomes
     }
 
     @Test
@@ -73,6 +75,6 @@ class AlunoRepositoryTest {  // ❌ Removido "public"
         entityManager.flush();
 
         boolean existe = alunoRepository.existsById(alunoSalvo.getIdaluno());
-        assertThat(existe).isFalse();
+        assertThat(existe).isFalse(); // Verifica se o aluno foi removido
     }
 }

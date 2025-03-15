@@ -17,6 +17,9 @@ import org.springframework.http.ResponseEntity;
 import br.edu.ifgoias.academico.entities.Curso;
 import br.edu.ifgoias.academico.services.CursoService;
 
+//Essa classe é um teste unitário para a classe CursoResource, que é um controlador REST responsável pelos endpoints da entidade Curso.
+//O objetivo desse teste é verificar se os métodos da API estão retornando as respostas esperadas, usando o Mockito para simular o comportamento do serviço (CursoService).
+
 @ExtendWith(MockitoExtension.class) // Ativa o Mockito para injeção de dependências
 class CursoResourceTest {
 
@@ -36,7 +39,7 @@ class CursoResourceTest {
 
         // Chamando o método da API
         ResponseEntity<List<Curso>> response = cursoResource.getAllCursos();
-
+ 
         // Validando a resposta
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).hasSize(2);

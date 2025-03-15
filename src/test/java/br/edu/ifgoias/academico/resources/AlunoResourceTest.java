@@ -19,14 +19,17 @@ import org.springframework.http.ResponseEntity;
 import br.edu.ifgoias.academico.entities.Aluno;
 import br.edu.ifgoias.academico.services.AlunoService;
 
+// Essa classe é um teste unitário para a classe AlunoResource que é responsável por disponibilizar os endpoints REST da entidade Aluno.
+// O teste simula chamadas HTTP para verificar se os métodos do controlador respondem corretamente utilizando o Mockito para mockar o serviço (AlunoService).
+
 @ExtendWith(MockitoExtension.class) // Adicionando extensão do Mockito
 class AlunoResourceTest {
 
     @InjectMocks
-    private AlunoResource resource; // Agora injetamos o mock manualmente
+    private AlunoResource resource; // Injetando o mock manualmente
 
     @Mock
-    private AlunoService servico; // Criamos um mock do serviço
+    private AlunoService servico; // Criando um mock do serviço
 
     @Test
     void deveRetornarListaDeAlunos() {
@@ -36,11 +39,9 @@ class AlunoResourceTest {
             new Aluno(2, "Maria Souza", "F", Date.valueOf(LocalDate.of(1998, 8, 20)))
         );
 
-        // Simulando comportamento do serviço
-        when(servico.findAll()).thenReturn(alunos);
+        when(servico.findAll()).thenReturn(alunos);  // Simulando comportamento do serviço
 
-        // Chamando o método do recurso
-        ResponseEntity<List<Aluno>> response = resource.findAll();
+        ResponseEntity<List<Aluno>> response = resource.findAll(); // Chamando o método do recurso
 
         // Verificando se a resposta está correta
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);

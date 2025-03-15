@@ -10,8 +10,10 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+//Essa classe testa as operações básicas (CRUD) do CursoRepository, garantindo que os métodos de inserção, busca e remoção de cursos no banco de dados funcionem corretamente.
+
 @DataJpaTest
-class CursoRepositoryTest { // Removido o modificador 'public'
+class CursoRepositoryTest { 
 
     @Autowired
     private CursoRepository cursoRepository;
@@ -19,30 +21,30 @@ class CursoRepositoryTest { // Removido o modificador 'public'
     private Curso curso;
 
     @BeforeEach
-    void setup() { // Removido o modificador 'public'
+    void setup() { 
         curso = new Curso();
         curso.setNomeCurso("Sistemas de Informação");
         curso = cursoRepository.save(curso);
     }
 
     @Test
-    void deveSalvarCurso() { // Removido o modificador 'public'
+    void deveSalvarCurso() { 
         Curso novoCurso = new Curso();
         novoCurso.setNomeCurso("Engenharia de Software");
         novoCurso.setId(null);
 
-        Curso salvo = cursoRepository.save(novoCurso);
+        Curso salvo = cursoRepository.save(novoCurso); 
 
-        assertThat(salvo).isNotNull();
-        assertThat(salvo.getId()).isNotNull();
+        assertThat(salvo).isNotNull(); // Verifica se o curso foi salvo
+        assertThat(salvo.getId()).isNotNull(); // Verifica se o ID foi gerado
     }
 
     @Test
     void deveBuscarCursoPorId() {
-        Optional<Curso> encontrado = cursoRepository.findById(curso.getId());
+        Optional<Curso> encontrado = cursoRepository.findById(curso.getId()); 
 
-        assertThat(encontrado).isPresent();
-        assertThat(encontrado.get().getNomeCurso()).isEqualTo("Sistemas de Informação");
+        assertThat(encontrado).isPresent(); // Verifica se o curso foi encontrado
+        assertThat(encontrado.get().getNomeCurso()).isEqualTo("Sistemas de Informação"); // Compara os nomes
     }
 
     @Test
@@ -50,6 +52,6 @@ class CursoRepositoryTest { // Removido o modificador 'public'
         cursoRepository.delete(curso);
         Optional<Curso> deletado = cursoRepository.findById(curso.getId());
 
-        assertThat(deletado).isEmpty();
+        assertThat(deletado).isEmpty(); // Verifica se o curso foi removido
     }
 }

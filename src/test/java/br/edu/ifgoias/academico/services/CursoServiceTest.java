@@ -17,30 +17,32 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+// Essa classe contém testes unitários para a classe CursoService, garantindo que seus métodos funcionem corretamente.
+
 class CursoServiceTest {
 
-    @InjectMocks
-    private CursoService cursoService;
+    @InjectMocks // Instância real do serviço com repositório mockado
+    private CursoService cursoService; 
 
-    @Mock
-    private CursoRepository cursoRepository;
+    @Mock // Instância real do serviço com repositório mockado
+    private CursoRepository cursoRepository; 
 
-    @BeforeEach
+    @BeforeEach // // Inicializa os mocks antes de cada teste
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void testFindById_Success() { 
+    void testFindById_Success() { // Verifica se findById() retorna um curso válido quando ele existe.
         Curso curso = new Curso(1L, "Matemática");
-        when(cursoRepository.findById(1L)).thenReturn(Optional.of(curso));
+        when(cursoRepository.findById(1L)).thenReturn(Optional.of(curso)); 
 
         Curso result = cursoService.findById(1L);
         assertEquals("Matemática", result.getNomeCurso());
     }
 
     @Test
-    void testFindById_NotFound() {
+    void testFindById_NotFound() { // Verifica se findById() retorna erro quando o curso não existe.
         when(cursoRepository.findById(99L)).thenReturn(Optional.empty());
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> cursoService.findById(99L));
@@ -49,7 +51,7 @@ class CursoServiceTest {
     }
 
     @Test
-    void testInsert() {
+    void testInsert() { // Verifica se insert() salva um curso corretamente.
         Curso curso = new Curso(null, "História");
         when(cursoRepository.save(curso)).thenReturn(new Curso(1L, "História"));
 
@@ -58,7 +60,7 @@ class CursoServiceTest {
     }
 
     @Test 
-    void testFindAll() {
+    void testFindAll() { // Verifica se findAll() retorna corretamente a lista de cursos.
         Curso curso1 = new Curso(1L, "Matemática");
         Curso curso2 = new Curso(2L, "História");
         when(cursoRepository.findAll()).thenReturn(Arrays.asList(curso1, curso2));
@@ -70,7 +72,7 @@ class CursoServiceTest {
     }
 
     @Test
-    void testUpdate_Success() {
+    void testUpdate_Success() { // Verifica se update() altera corretamente um curso existente.
         Curso existingCurso = new Curso(1L, "Matemática");
         Curso updatedCurso = new Curso(1L, "Matemática Avançada");
 
@@ -82,7 +84,7 @@ class CursoServiceTest {
     }
 
     @Test
-    void testUpdate_NotFound() {
+    void testUpdate_NotFound() { // Verifica se update() retorna erro quando o curso não existe.
         when(cursoRepository.findById(99L)).thenReturn(Optional.empty());
 
         // Cria o objeto Curso fora da lambda
@@ -98,7 +100,7 @@ class CursoServiceTest {
     }
 
     @Test
-    void testDelete_Success() {
+    void testDelete_Success() { // Verifica se delete() remove um curso corretamente.
         Curso curso = new Curso(1L, "Matemática");
         when(cursoRepository.findById(1L)).thenReturn(Optional.of(curso));
         doNothing().when(cursoRepository).delete(curso);
@@ -110,7 +112,7 @@ class CursoServiceTest {
     }
 
     @Test
-    void testDelete_NotFound() {
+    void testDelete_NotFound() { // Verifica se delete() retorna erro quando o curso não existe.
         when(cursoRepository.findById(99L)).thenReturn(Optional.empty());
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
