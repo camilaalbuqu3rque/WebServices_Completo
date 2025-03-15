@@ -35,6 +35,7 @@ public class AlunoRepositoryTest {
 
     @BeforeEach
     void setup() {
+        alunoRepository.deleteAll(); // Limpa o banco antes do teste
         aluno = new Aluno();
         aluno.setNome("João Silva");
         aluno.setSexo("M");
@@ -48,11 +49,11 @@ public class AlunoRepositoryTest {
         aluno.setSexo("M");
         aluno.setDtNasc(Date.valueOf(LocalDate.of(1995, 10, 20)));
 
-        Aluno alunoSalvo = alunoRepository.save(aluno);
+        Aluno alunoSalvo = alunoRepository.save(this.aluno);
         
         assertThat(alunoSalvo).isNotNull();
         assertThat(alunoSalvo.getIdaluno()).isNotNull();
-        assertThat(alunoSalvo.getNome()).isEqualTo("Teste");
+        assertThat(alunoSalvo.getNome()).isEqualTo("João Silva");
     }
 
     @Test

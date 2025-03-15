@@ -13,7 +13,7 @@ public class Curso {
 
     @Column(nullable = false, length = 100)
     private String nomeCurso = CURSO_PADRAO; // Uso da constante
- 
+  
     public Curso() {}
 
     public Curso(Long id, String nomeCurso) {
