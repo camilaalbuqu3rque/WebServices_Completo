@@ -21,7 +21,7 @@ import jakarta.transaction.Transactional;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class AlunoRepositoryTest {
+class AlunoRepositoryTest {  // ❌ Removido "public"
 
     @Autowired
     private AlunoRepository alunoRepository;
@@ -32,7 +32,8 @@ public class AlunoRepositoryTest {
     private Aluno aluno;
 
     @BeforeEach
-    private void setup() {  // Agora este método é privado
+    public void setup() {  // Agora este método é público
+        alunoRepository.deleteAll(); // Limpa o banco antes do teste
         aluno = new Aluno();
         aluno.setNome("João Silva");
         aluno.setSexo("M");
