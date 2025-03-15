@@ -35,9 +35,9 @@ public class Aluno implements Serializable {
     private Curso curso;
 
     public Aluno() {
-    }
+    } 
 
-    public Aluno(Integer id, String nome, String sexo, Date dtNasc) {
+    public Aluno(Integer id, String nome, String sexo, Date dtNasc) { 
         this.idaluno = id;
         this.nome = nome;
         this.sexo = sexo;

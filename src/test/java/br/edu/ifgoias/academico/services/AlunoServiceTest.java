@@ -99,7 +99,7 @@ class AlunoServiceTest {
 
     @Test
     void testEqualsAndHashCode() {
-        Aluno aluno2 = new Aluno(1, "Maria", "F", new Date());
+        Aluno aluno2 = new Aluno(1, "Maria", "F", new Date()); 
         assertEquals(aluno, aluno2);
         assertEquals(aluno.hashCode(), aluno2.hashCode());
 
