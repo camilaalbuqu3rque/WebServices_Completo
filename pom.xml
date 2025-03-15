@@ -56,6 +56,12 @@
 
     <dependencies>
     
+    <dependency>
+	    <groupId>net.bytebuddy</groupId>
+	    <artifactId>byte-buddy</artifactId>
+	    <version>1.17.2</version><!--$NO-MVN-MAN-VER$--> <!-- Certifique-se de usar a versão mais recente -->
+	</dependency>
+    
     	<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-core</artifactId>

@@ -83,7 +83,7 @@ public class Aluno implements Serializable {
     public void setCurso(Curso curso) {
         this.curso = curso;
     }
-
+ 
     public void setId(Integer id) { 
         this.idaluno = id;
     }

@@ -46,7 +46,7 @@ public class AlunoResource {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Aluno> insert(@RequestBody Aluno a) {
 
-		a = servico.insert(a);
+		a = servico.insert(a); 
 
 		return ResponseEntity.ok().body(a);
 
