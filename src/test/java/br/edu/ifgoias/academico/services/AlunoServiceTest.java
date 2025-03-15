@@ -25,7 +25,7 @@ class AlunoServiceTest {
     private AlunoRepository alunoRepository;
 
     @InjectMocks
-    private AlunoService alunoService;
+    private AlunoService alunoService; 
 
     private Aluno aluno;
 
@@ -75,6 +75,29 @@ class AlunoServiceTest {
     }
 
     @Test
+    void testUpdateAlunoExists() {
+        Aluno alunoAlterado = new Aluno(1, "Ana", "F", new Date());
+
+        when(alunoRepository.findById(1)).thenReturn(Optional.of(aluno));
+        when(alunoRepository.save(any(Aluno.class))).thenReturn(alunoAlterado);
+
+        Aluno updatedAluno = alunoService.update(1, alunoAlterado);
+
+        assertNotNull(updatedAluno);
+        assertEquals("Ana", updatedAluno.getNome());
+        assertEquals("F", updatedAluno.getSexo());
+    }
+
+    @Test
+    void testUpdateAlunoNotExists() {
+        Aluno alunoAlterado = new Aluno(1, "Ana", "F", new Date());
+
+        when(alunoRepository.findById(1)).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () -> alunoService.update(1, alunoAlterado));
+    }
+
+    @Test
     void testEqualsAndHashCode() {
         Aluno aluno2 = new Aluno(1, "Maria", "F", new Date());
         assertEquals(aluno, aluno2);
@@ -97,7 +120,7 @@ class AlunoServiceTest {
         Aluno alunoNulo = new Aluno();
         alunoNulo.setIdaluno(null);
         alunoNulo.setNome(null);
-        alunoNulo.setSexo(null);
+        alunoNulo.setSexo(null); 
         alunoNulo.setDtNasc(null);
         
         assertNull(alunoNulo.getIdaluno());

@@ -30,7 +30,7 @@ public class AlunoService {
 		alunoRep.deleteById(id);
 	}
 
-	public Aluno update(Integer id, Aluno objAlterado) {
+	public Aluno update(Integer id, Aluno objAlterado) { 
 		return alunoRep.findById(id).map(alunoDB -> {
 			alunoDB.setNome(objAlterado.getNome());
 			alunoDB.setSexo(objAlterado.getSexo());

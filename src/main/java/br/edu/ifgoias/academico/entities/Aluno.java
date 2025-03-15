@@ -32,7 +32,7 @@ public class Aluno implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "idcurso")
-    private transient Curso curso; // Campo marcado como transient
+    private Curso curso;
 
     public Aluno() {
     }
