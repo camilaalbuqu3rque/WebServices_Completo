@@ -32,7 +32,7 @@ public class AlunoRepositoryTest {
     private Aluno aluno;
 
     @BeforeEach
-    void setup() {
+    private void setup() {  // Agora este método é privado
         aluno = new Aluno();
         aluno.setNome("João Silva");
         aluno.setSexo("M");

@@ -32,7 +32,7 @@ public class Aluno implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "idcurso")
-    private Curso curso;
+    private Curso curso; 
 
     public Aluno() {
     } 
@@ -94,7 +94,7 @@ public class Aluno implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(dtNasc, idaluno, nome, sexo);
+        return Objects.hash(idaluno); // 🔹 Usando apenas o ID para evitar inconsistências
     }
 
     @Override

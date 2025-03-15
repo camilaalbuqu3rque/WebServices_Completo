@@ -1,22 +1,25 @@
 package br.edu.ifgoias.academico.entities;
 
+import java.io.Serializable;
+
 import jakarta.persistence.*;
 
 @Entity
-public class Curso {
+public class Curso implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private static final String CURSO_PADRAO = "Curso Padrão"; // Definição da constante
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false, length = 100)
+    
+    @Column(nullable = false, length = 100) 
     private String nomeCurso = CURSO_PADRAO; // Uso da constante
   
     public Curso() {}
 
-    public Curso(Long id, String nomeCurso) {
+    public Curso(Long id, String nomeCurso) { 
         this.id = id;
         this.nomeCurso = (nomeCurso != null && !nomeCurso.isEmpty()) ? nomeCurso : CURSO_PADRAO; // Uso da constante
     }
