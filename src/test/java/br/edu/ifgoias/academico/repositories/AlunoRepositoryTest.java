@@ -14,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import br.edu.ifgoias.academico.entities.Aluno;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -22,7 +21,6 @@ import jakarta.transaction.Transactional;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Transactional
 public class AlunoRepositoryTest {
 
     @Autowired
@@ -35,7 +33,6 @@ public class AlunoRepositoryTest {
 
     @BeforeEach
     void setup() {
-        alunoRepository.deleteAll(); // Limpa o banco antes do teste
         aluno = new Aluno();
         aluno.setNome("João Silva");
         aluno.setSexo("M");
@@ -44,16 +41,16 @@ public class AlunoRepositoryTest {
 
     @Test
     void deveSalvarAluno() {
-        Aluno aluno = new Aluno();
-        aluno.setNome("Teste");
-        aluno.setSexo("M");
-        aluno.setDtNasc(Date.valueOf(LocalDate.of(1995, 10, 20)));
+        Aluno novoAluno = new Aluno();
+        novoAluno.setNome("Teste");
+        novoAluno.setSexo("M");
+        novoAluno.setDtNasc(Date.valueOf(LocalDate.of(1995, 10, 20)));
 
-        Aluno alunoSalvo = alunoRepository.save(this.aluno);
+        Aluno alunoSalvo = alunoRepository.save(novoAluno);
         
         assertThat(alunoSalvo).isNotNull();
         assertThat(alunoSalvo.getIdaluno()).isNotNull();
-        assertThat(alunoSalvo.getNome()).isEqualTo("João Silva");
+        assertThat(alunoSalvo.getNome()).isEqualTo("Teste");
     }
 
     @Test
@@ -66,6 +63,7 @@ public class AlunoRepositoryTest {
     }
 
     @Test
+    @Transactional
     void deveApagarAluno() {
         Aluno alunoSalvo = alunoRepository.save(aluno);
         alunoRepository.deleteById(alunoSalvo.getIdaluno());

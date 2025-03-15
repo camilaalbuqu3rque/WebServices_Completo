@@ -11,7 +11,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-public class CursoRepositoryTest {
+class CursoRepositoryTest { // Removido o modificador 'public'
 
     @Autowired
     private CursoRepository cursoRepository;
@@ -19,14 +19,14 @@ public class CursoRepositoryTest {
     private Curso curso;
 
     @BeforeEach
-    void setup() {
+    void setup() { // Removido o modificador 'public'
         curso = new Curso();
         curso.setNomeCurso("Sistemas de Informação");
         curso = cursoRepository.save(curso);
     }
 
     @Test
-    void deveSalvarCurso() {
+    void deveSalvarCurso() { // Removido o modificador 'public'
         Curso novoCurso = new Curso();
         novoCurso.setNomeCurso("Engenharia de Software");
         novoCurso.setId(null);
