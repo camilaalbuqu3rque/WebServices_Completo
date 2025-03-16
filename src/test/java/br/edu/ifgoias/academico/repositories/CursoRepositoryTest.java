@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 //Essa classe testa as operações básicas (CRUD) do CursoRepository, garantindo que os métodos de inserção, busca e remoção de cursos no banco de dados funcionem corretamente.
 
-@DataJpaTest
+@DataJpaTest // Configura o Spring Boot para rodar apenas testes na camada de persistência (JPA)
 class CursoRepositoryTest { 
 
     @Autowired

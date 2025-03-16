@@ -35,8 +35,8 @@ class AlunoResourceTest {
     void deveRetornarListaDeAlunos() {
         // Criando alunos fictícios
         List<Aluno> alunos = Arrays.asList(
-            new Aluno(1, "João Silva", "M", Date.valueOf(LocalDate.of(2000, 5, 15))),
-            new Aluno(2, "Maria Souza", "F", Date.valueOf(LocalDate.of(1998, 8, 20)))
+            new Aluno(1, "João Silva", "M", Date.valueOf(LocalDate.of(2000, 5, 15))), 
+            new Aluno(2, "Maria Souza", "F", Date.valueOf(LocalDate.of(1998, 8, 20))) 
         );
 
         when(servico.findAll()).thenReturn(alunos);  // Simulando comportamento do serviço

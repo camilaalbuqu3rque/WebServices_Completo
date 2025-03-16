@@ -95,7 +95,7 @@ class AlunoServiceTest {
     void testUpdateAlunoNotExists() {
         Aluno alunoAlterado = new Aluno(1, "Ana", "F", new Date());
 
-        when(alunoRepository.findById(1)).thenReturn(Optional.empty()); // Simula ID inexistente
+        when(alunoRepository.findById(1)).thenReturn(Optional.empty()); // Simula ID inexistente 
 
         assertThrows(RuntimeException.class, () -> alunoService.update(1, alunoAlterado)); // Deve lançar erro
     }

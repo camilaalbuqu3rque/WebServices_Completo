@@ -20,9 +20,9 @@ import jakarta.transaction.Transactional;
 
 // Essa classe tem três testes principais que validam se as operações básicas de banco de dados (CRUD) estão funcionando corretamente.
 
-@ExtendWith(SpringExtension.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ExtendWith(SpringExtension.class) // Adiciona suporte do JUnit 5 para rodar os testes
+@DataJpaTest //Configura o teste para usar apenas as funcionalidades do Spring Data JPA
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // Diz ao Spring para NÃO substituir o banco por um em memória (usa um banco real)
 class AlunoRepositoryTest {  
 
     @Autowired
@@ -45,7 +45,7 @@ class AlunoRepositoryTest {
     @Test
     void deveSalvarAluno() {
         Aluno novoAluno = new Aluno();
-        novoAluno.setNome("Teste");
+        novoAluno.setNome("Teste"); 
         novoAluno.setSexo("M");
         novoAluno.setDtNasc(Date.valueOf(LocalDate.of(1995, 10, 20)));
 
