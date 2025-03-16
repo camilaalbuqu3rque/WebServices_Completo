@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifgoias.academico.entities.Aluno;
@@ -23,49 +22,35 @@ import br.edu.ifgoias.academico.services.AlunoService;
 @RequestMapping(value = "/alunos")
 public class AlunoResource {
 
-	private AlunoService servico;
+    private AlunoService servico;
 
-	@GetMapping
-	public ResponseEntity<List<Aluno>> findAll() { 
+    @GetMapping
+    public ResponseEntity<List<Aluno>> findAll() {
+        List<Aluno> alunos = servico.findAll();
+        return ResponseEntity.ok().body(alunos);
+    }
 
-		List<Aluno> alunos = servico.findAll();
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Aluno> findById(@PathVariable Integer id) {
+        Aluno aluno = servico.findById(id);
+        return ResponseEntity.ok().body(aluno);
+    }
 
-		return ResponseEntity.ok().body(alunos);
- 
-	}
- 
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Aluno> findById(@PathVariable Integer id) {
+    @PostMapping
+    public ResponseEntity<Aluno> insert(@RequestBody Aluno a) {
+        a = servico.insert(a);
+        return ResponseEntity.status(HttpStatus.CREATED).body(a); 
+    }
 
-		Aluno aluno = servico.findById(id);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        servico.delete(id);
+        return ResponseEntity.noContent().build(); 
+    }
 
-		return ResponseEntity.ok().body(aluno);
-	}
-
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Aluno> insert(@RequestBody Aluno a) {
-
-		a = servico.insert(a); 
-
-		return ResponseEntity.ok().body(a);
-
-	}
-
-	@DeleteMapping(value = "/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable Integer id) {
-
-		servico.delete(id);
-
-	}
-
-	@PutMapping(value = "/{id}")
-	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Aluno> update(@PathVariable Integer id, @RequestBody Aluno a) {
-
-		a = servico.update(id, a);
-
-		return ResponseEntity.ok().body(a);
-	}
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Aluno> update(@PathVariable Integer id, @RequestBody Aluno a) {
+        a = servico.update(id, a);
+        return ResponseEntity.ok().body(a);
+    }
 }
